@@ -103,4 +103,15 @@ module ApplicationHelper
     !user_signed_in?
   end
 
+  def add_source(base_url, source)
+    base_url += "?from=#{source}"
+  end
+
+  def analytics_scope 
+    if Rails.env.production? || Rails.env.staging?
+      unless controller_name == 'Searches'
+        yield
+      end
+    end
+  end
 end
