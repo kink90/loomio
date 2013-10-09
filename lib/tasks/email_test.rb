@@ -5,10 +5,8 @@
 #      RAILS_ENV=test TEST_EMAIL=mailcatcher rails runner lib/tasks/email_test.rb
 
 ####To send using Sendgrid####
-#1. Start mailcatcher in terminal (if you need to install it, run `gem install mailcatcher`)
-#2. Open mailcatcher in your browser at http://localhost:1080
-#3. Make sure you have a sengrid username and password to send emails through sendgrid
-#4. In terminal, run:
+#1. Make sure you have a sengrid username and password to send emails through sendgrid
+#2. In terminal, run:
 #      RAILS_ENV=test TEST_EMAIL=sendgrid SENDGRID_USERNAME=***** SENDGRID_PASSWORD=****** rails runner lib/tasks/email_test.rb
 
 #NB Edit the let(:addresses) below to define external targets  (~line 85)
