@@ -14,8 +14,30 @@
 #   To the bottom of the file add the lines like:
 #       export SENDGRID_USERNAME=*******
 
-require 'spec_helper'
+require 'rspec/rails'
+require 'rspec/autorun'
+RSpec.configure do |config|
+  config.mock_with :rspec
+  config.treat_symbols_as_metadata_keys_with_true_values = true
+  config.run_all_when_everything_filtered = true
+  config.use_transactional_fixtures = false
+  config.infer_base_class_for_anonymous_controllers = false
+  config.before :suite do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+  config.before type: :request do
+    DatabaseCleaner.strategy = :truncation
+  end
+  config.before do
+    DatabaseCleaner.start
+  end
+  config.after do
+    DatabaseCleaner.clean
+  end
+end
 require 'faker'
+
 
 def create_user
   stub_model User,
@@ -205,7 +227,7 @@ describe "Test Email:" do
                                                                          inviter: admin,
                                                                          group: membership_request.group )
 
-        InvitePeopleMailer.to_join_group(invitation, admin.email, message_body).deliver
+        InvitePeopleMailer.to_join_group(invitation, admin, message_body).deliver
         puts " ~ SENT (#{email})"
       end
     end
@@ -218,8 +240,9 @@ describe "Test Email:" do
         membership_request.stub email: email
 
         invitation = CreateInvitation.to_start_group( recipient_email: membership_request.email,
-                                                                         inviter: admin,
-                                                                         group: membership_request.group )
+                                                      recipient_name: membership_request.name,
+                                                      inviter: admin,
+                                                      group: membership_request.group )
 
         InvitePeopleMailer.to_start_group(invitation, admin.email).deliver
         puts " ~ SENT (#{email})"

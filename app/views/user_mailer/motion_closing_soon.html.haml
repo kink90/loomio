@@ -1,7 +1,7 @@
 = render '/application/mailer_doctype'
 %html
   %h4.author-action= t(:"email.new_motion_created.author_proposed", author: @motion.author_name)
-  %h2= link_to @motion.name, motion_path(@motion)
+  %h2= link_to @motion.name, motion_path(@motion)+'?from_email=true'
 
   -if @rendered_motion_description.present?
     = @rendered_motion_description
