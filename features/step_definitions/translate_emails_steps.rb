@@ -90,7 +90,7 @@ end
 Then(/^"(.*?)" should receive the proposal closing soon email in Spanish$/) do |arg1|
   user = User.find_by_email("#{arg1}@example.org")
   email = UserMailer.motion_closing_soon(user, @motion)
-  email.body.encoded.should include("Grupo")
+  email.body.encoded.should include(I18n.t(:"email.proposal_closing_soon.closes_on", locale: "es"))
 end
 
 Given(/^"(.*?)" has closed their proposal$/) do |arg1|
