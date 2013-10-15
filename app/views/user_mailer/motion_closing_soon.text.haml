@@ -7,7 +7,7 @@
   =@motion.description
 \
 = t(:"email.proposal_closing_soon.closes_on")
-= @motion.closing_at.strftime('%a %-d %b %Y - %l:%M%P %Z %z')
+= @motion.closing_at.in_time_zone(TimeZoneToCity.convert @user.time_zone).strftime('%a %-d %b -%l:%M%P  (%Z %z)')
 \
 = "#{t :positions}:"
 \
